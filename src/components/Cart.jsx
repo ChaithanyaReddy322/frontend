@@ -26,7 +26,7 @@ function Cart() {
           <div key={idx} className="cart-item">
             {item.imageUrl && (
               <img
-                src={`${API_URL}/${item.imageUrl}`}
+                src={`https://backend-1-xo59.onrender.com${item.imageUrl}`}
                 alt={item.name}
                 width="80"
               />
