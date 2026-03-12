@@ -1,12 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { CartContext } from "../CartContext";
 import "./Content.css"
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL || "";
+
+if (!API_URL) {
+  console.warn("VITE_API_URL is not defined; API requests will fail");
+}
 
 function Content() {
   // const [count, setCount] = useState(0);
   const [products, setProducts] = useState([]);
+  const { addToCart } = useContext(CartContext);
+
   const increment = () => {
     setCount(count + 1);
   };
@@ -30,12 +37,14 @@ function Content() {
       <hr /> */}
       <div className="row">
         {products.map((product) => (
-          <div className="box">
+          <div className="box" key={product.id}>
             <img src={`${API_URL}/${product.imageUrl}`} width="300px" alt="" />
             <h3>{product.name}</h3>
             <p>{product.desc}</p>
             <h4>{product.price}</h4>
-            <p><button>Add to Cart</button></p>
+            <p>
+              <button onClick={() => addToCart(product)}>Add to Cart</button>
+            </p>
           </div>
         ))}
       </div>

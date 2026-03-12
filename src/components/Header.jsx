@@ -1,6 +1,12 @@
 import "./Header.css";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "../CartContext";
+
 function Header() {
+  const { cartItems } = useContext(CartContext);
+  const count = cartItems.length;
+
   return (
     <div className="App-Header">
       <h1>My Store</h1>
@@ -9,7 +15,7 @@ function Header() {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/cart">Cart</Link>
+          <Link to="/cart">Cart {count > 0 && `(${count})`}</Link>
         </li>
         <li>
           <Link to="/orders">Order</Link>
