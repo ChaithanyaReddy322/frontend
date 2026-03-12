@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
 
-const API = import.meta.env.VITE_API_URL;
-
 export default function Content() {
   const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${API}/store/products`)
+    fetch("https://backend-1-xo59.onrender.com/api/products")
       .then((res) => res.json())
       .then((data) => setProducts(data))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.error("Error:", err);
+        setError(err.message);
+      });
   }, []);
 
   return (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+      {error && <p style={{ color: "red" }}>Error loading products: {error}</p>}
+      {products.length === 0 && !error && <p>Loading products...</p>}
       {products.map((product) => (
         <div
           key={product._id}
