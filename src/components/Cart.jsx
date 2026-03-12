@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { CartContext } from "../CartContext";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "";
 
 function Cart() {
   const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
@@ -26,7 +26,7 @@ function Cart() {
           <div key={idx} className="cart-item">
             {item.imageUrl && (
               <img
-                src={`https://backend-1-xo59.onrender.com${item.imageUrl}`}
+                src={`${API_URL}${item.imageUrl}`}
                 alt={item.name}
                 width="80"
               />

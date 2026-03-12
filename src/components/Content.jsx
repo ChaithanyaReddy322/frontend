@@ -38,7 +38,7 @@ function Content() {
       <div className="row">
         {products.map((product) => (
           <div className="box" key={product.id}>
-            <img src={`https://backend-1-xo59.onrender.com${product.imageUrl}`} width="300px" alt={product.name} />
+            <img src={`${API_URL}${product.imageUrl}`} width="300px" alt={product.name} />
             <h3>{product.name}</h3>
             <p>{product.desc}</p>
             <h4>{product.price}</h4>
