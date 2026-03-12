@@ -24,7 +24,7 @@ export default function Content() {
           }}
         >
           <img
-            src={`${API}${product.imageUrl}`}
+            src={product.imageUrl}
             alt={product.name}
             style={{ width: "100%", height: "150px", objectFit: "cover" }}
           />
