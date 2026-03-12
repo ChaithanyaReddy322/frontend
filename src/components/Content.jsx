@@ -1,54 +1,43 @@
-import { useState, useEffect, useContext } from "react";
-import axios from "axios";
-import { CartContext } from "../CartContext";
-import "./Content.css"
+import { useEffect, useState } from "react";
 
-const API_URL = import.meta.env.VITE_API_URL || "";
+const API = import.meta.env.VITE_API_URL;
 
-if (!API_URL) {
-  console.warn("VITE_API_URL is not defined; API requests will fail");
-}
-
-function Content() {
-  // const [count, setCount] = useState(0);
+export default function Content() {
   const [products, setProducts] = useState([]);
-  const { addToCart } = useContext(CartContext);
 
-  const increment = () => {
-    setCount(count + 1);
-  };
-  const decrement = () => {
-    setCount(count - 1);
-  };
-  const fetchProducts = async () => {
-    const url = `${API_URL}/store`;
-    const res = await axios.get(url);
-    setProducts(res.data);
-  };
   useEffect(() => {
-    fetchProducts();
+    fetch(`${API}/store/products`)
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((err) => console.log(err));
   }, []);
+
   return (
-    <div>
-     
-      {/* <button onClick={decrement}>-</button>
-      {count}
-      <button onClick={increment}>+</button>
-      <hr /> */}
-      <div className="row">
-        {products.map((product) => (
-          <div className="box" key={product.id}>
-            <img src={`${API_URL}${product.imageUrl}`} width="300px" alt={product.name} />
-            <h3>{product.name}</h3>
-            <p>{product.desc}</p>
-            <h4>{product.price}</h4>
-            <p>
-              <button onClick={() => addToCart(product)}>Add to Cart</button>
-            </p>
-          </div>
-        ))}
-      </div>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+      {products.map((product) => (
+        <div
+          key={product._id}
+          style={{
+            border: "1px solid gray",
+            padding: "10px",
+            width: "200px",
+          }}
+        >
+          <img
+            src={`${API}${product.imageUrl}`}
+            alt={product.name}
+            style={{ width: "100%", height: "150px", objectFit: "cover" }}
+          />
+
+          <h3>{product.name}</h3>
+
+          <p>{product.desc}</p>
+
+          <p>{product.price}</p>
+
+          <button>Add to Cart</button>
+        </div>
+      ))}
     </div>
   );
 }
-export default Content;
